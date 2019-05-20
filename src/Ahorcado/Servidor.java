@@ -18,11 +18,14 @@ public class Servidor implements AhorcadoInterface {
 		try {
 			registro = LocateRegistry.createRegistry(1234);
 			registro.rebind("Ahorcado",
-			(AhorcadoInterface) UnicastRemoteObject.exportObject(v, 0));
+					(AhorcadoInterface) UnicastRemoteObject.exportObject(v, 0));
 		} catch (Exception e) {
 			System.out.println("Error : "+e);
 			e.printStackTrace();
 		}
+		String pa = v.generarPalabra(r, Palabras);
+		System.out.println(pa);
+		v.letraCorrecta_Incorrecta("m", pa);
 	}
 	@Override
 	public String generarPalabra(Random r , String [] palabras) throws RemoteException {
@@ -30,8 +33,25 @@ public class Servidor implements AhorcadoInterface {
 		return palabras[numero_aleatorio];
 	}
 	@Override
-	public boolean letraCorrecta_Incorrecta(String letra) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean letraCorrecta_Incorrecta(String letra,String palabra_generada) throws RemoteException {
+		int intentos = 10;
+		String caracteres []= palabra_generada.split("");
+		boolean resultado = false;
+		for (int i = 0; i < caracteres.length; i++) {
+			System.out.print(" _ ");
+		}
+		while(intentos <=0) {
+			for (int i = 0; i < caracteres.length; i++) {
+				if(letra.equalsIgnoreCase(caracteres[i])) {
+					caracteres[i] = letra;
+					System.out.println();
+				}else {
+					System.out.println("Letra Incorrecta ");
+					intentos = intentos -1;
+				}
+			}
+
+		}
+		return resultado;
 	}
 }
