@@ -1,17 +1,20 @@
 package Ahorcado;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Random;
 
 public class Servidor implements AhorcadoInterface {
-	static String [] Palabras = {"Alberto","Anime","Manga"};
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException, RemoteException {
 		Registry registro = null;
 		Servidor v = new Servidor();
-		System.setProperty("java.rmi.server.hostname","192.168.0.12");
-		
+		Random r = new Random();
+		System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostAddress());
+		String [] Palabras = {"Alberto","Anime","Manga"};
 		try {
 			registro = LocateRegistry.createRegistry(1234);
 			registro.rebind("Ahorcado",
@@ -20,12 +23,15 @@ public class Servidor implements AhorcadoInterface {
 			System.out.println("Error : "+e);
 			e.printStackTrace();
 		}
-		
 	}
 	@Override
-	public String letra() throws RemoteException {
-		String letra = "";
-		
-		return letra;
+	public String generarPalabra(Random r , String [] palabras) throws RemoteException {
+		int numero_aleatorio = r.nextInt(3);
+		return palabras[numero_aleatorio];
+	}
+	@Override
+	public boolean letraCorrecta_Incorrecta(String letra) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
