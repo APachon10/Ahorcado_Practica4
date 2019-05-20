@@ -40,17 +40,18 @@ public class Servidor implements AhorcadoInterface {
 		for (int i = 0; i < caracteres.length; i++) {
 			System.out.print(" _ ");
 		}
-		while(intentos <=0) {
+		while(!resultado && intentos <=0) {
 			for (int i = 0; i < caracteres.length; i++) {
 				if(letra.equalsIgnoreCase(caracteres[i])) {
 					caracteres[i] = letra;
-					System.out.println();
+					System.out.println(caracteres[i]);
+					resultado=true;
 				}else {
 					System.out.println("Letra Incorrecta ");
-					intentos = intentos -1;
+					intentos = intentos-1;
+					resultado=false;
 				}
 			}
-
 		}
 		return resultado;
 	}
