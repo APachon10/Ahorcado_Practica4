@@ -37,23 +37,16 @@ public class Servidor implements AhorcadoInterface {
 		int intentos = 10;
 		String caracteres []= palabra_generada.split("");
 		boolean resultado = false;
-		String guiones = "_";
-		for (int i = 0; i < caracteres.length; i++) {
-			System.out.print(" _ ");
-		}
-		while(!resultado && intentos >=0) {
-			for (int i = 0; i < caracteres.length; i++) {
-				System.out.println(guiones);
-				if(letra.equalsIgnoreCase(caracteres[i])) {
-					caracteres[i] = letra;
-					System.out.println(caracteres[i]);
+		int i=0;
+		while(intentos >=0 && !resultado) {
+			for (int j = 0; j < caracteres.length; j++) {
+				if (letra.equalsIgnoreCase(caracteres[j])) {
+					System.out.print(letra);
 					resultado=true;
 				}else {
-					System.out.println("Letra Incorrecta ");
-					intentos = intentos-1;
+					System.out.print("_");
 					resultado=false;
 				}
-				System.out.println(guiones);
 			}
 		}
 		return resultado;
