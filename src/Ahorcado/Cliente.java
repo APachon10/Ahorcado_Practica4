@@ -1,7 +1,32 @@
 package Ahorcado;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Random;
+import java.util.Scanner;
+
 public class Cliente {
 	public static void main(String[] args) {
-		
+		try {
+			Registry registro = LocateRegistry.getRegistry(5555);
+			Servidor v = new Servidor();
+			System.out.println(v.intentos);
+			Random r = new Random();
+			int num_aleatorio = r.nextInt(3);
+			boolean res = false;
+			while(v.intentos >=0 && !res) {
+				System.out.print("Introduce una Letra: ");
+				String letra = leerCadenas();
+				v.letraCorrecta_Incorrecta(letra, v.generarPalabra(r,v.Palabras));
+			}
+		} catch (Exception e) {
+			System.out.println("Error: "+e);
+			e.printStackTrace();
+		}
+	}
+	public static String leerCadenas() {
+		Scanner scan  = new Scanner(System.in);
+		String cadena = scan.nextLine();
+		return cadena;
 	}
 }
