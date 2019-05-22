@@ -11,7 +11,7 @@ import java.util.Random;
 public class Servidor implements AhorcadoInterface {
 	static String [] Palabras = {"Alberto","Anime","Manga"};
 	static String palabra_generada = "";
-	static int intentos = 10;
+	static int intentos = 2;
 	public static void main(String[] args) throws UnknownHostException, RemoteException {
 		Registry registro = null;
 		Servidor v = new Servidor(palabra_generada);
@@ -37,16 +37,16 @@ public class Servidor implements AhorcadoInterface {
 		return palabras[numero_aleatorio];
 	}
 	@Override
-	public String letraCorrecta_Incorrecta(String letra,String palabra_generada) throws RemoteException {
+	public String compararLetra(String letra,String palabra_generada) throws RemoteException {
 		String caracteres []= palabra_generada.split("");
-		
-		String res = "_";
-		
+		String res = "";
+		System.out.println(palabra_generada);
 		for (int i = 0; i < caracteres.length; i++) {
 			if(letra == caracteres[i]) {
-				System.out.println(caracteres[i] +"");
+				System.out.print(caracteres[i] +"");
 			}else {
-				System.out.println("_"+"");
+				System.out.print("_"+"");
+				intentos = intentos -1;
 			}
 		}
 		return res;

@@ -15,11 +15,10 @@ public class Cliente {
 			Random r = new Random();
 			int num_aleatorio = r.nextInt(3);
 			boolean res = false;
-			
-			while(v.intentos >=0 || !res) {
+			while(v.intentos >=0) {
 				System.out.println("Introduce una Letra: ");
 				String letra = leerCadenas();
-				v.letraCorrecta_Incorrecta(letra,v.palabra_generada);
+				v.compararLetra(letra, palabra);
 			}
 		} catch (Exception e) {
 			System.out.println("Error: "+e);
