@@ -10,13 +10,14 @@ import java.util.Random;
 
 public class Servidor implements AhorcadoInterface {
 	static String [] Palabras = {"Alberto","Anime","Manga"};
-	static String palabra_generada = "";
+	static String palabra_generada="";
 	static int intentos = 2;
 	public static void main(String[] args) throws UnknownHostException, RemoteException {
 		Registry registro = null;
-		Servidor v = new Servidor(palabra_generada);
+		Servidor v = new Servidor();
+		System.out.println(palabra_generada);
 		System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostAddress());
-
+		System.out.println("Servidor Listo");
 		try {
 			registro = LocateRegistry.createRegistry(5555);
 			registro.rebind("Ahorcado",
@@ -27,8 +28,10 @@ public class Servidor implements AhorcadoInterface {
 		}
 	}
 	//Constructor
-	public  Servidor(String palabra) throws RemoteException {
-		palabra = generarPalabra(Palabras);
+	public  Servidor() throws RemoteException {
+		if(this.palabra_generada.equals("")) {
+			this.palabra_generada = generarPalabra(Palabras);
+		}
 	}
 	@Override
 	public  String generarPalabra(String [] palabras) throws RemoteException {
@@ -37,14 +40,16 @@ public class Servidor implements AhorcadoInterface {
 		return palabras[numero_aleatorio];
 	}
 	@Override
-	public String compararLetra(String letra,String palabra_generada) throws RemoteException {
+	public String compararLetra(String letra) throws RemoteException {
 		String caracteres []= palabra_generada.split("");
 		String res = "";
-		System.out.println(palabra_generada);
+		System.out.println("Hola: " +palabra_generada);
 		for (int i = 0; i < caracteres.length; i++) {
 			if(letra == caracteres[i]) {
+				res = res+ caracteres[i];
 				System.out.print(caracteres[i] +"");
 			}else {
+				res=res+"_";
 				System.out.print("_"+"");
 				intentos = intentos -1;
 			}
