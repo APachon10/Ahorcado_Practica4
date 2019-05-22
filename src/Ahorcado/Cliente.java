@@ -9,15 +9,17 @@ public class Cliente {
 	public static void main(String[] args) {
 		try {
 			Registry registro = LocateRegistry.getRegistry(5555);
-			Servidor v = new Servidor();
+			String palabra = "";
+			Servidor v = new Servidor(palabra);
 			System.out.println(v.intentos);
 			Random r = new Random();
 			int num_aleatorio = r.nextInt(3);
 			boolean res = false;
-			while(v.intentos >=0 && !res) {
-				System.out.print("Introduce una Letra: ");
+			
+			while(v.intentos >=0 || !res) {
+				System.out.println("Introduce una Letra: ");
 				String letra = leerCadenas();
-				v.letraCorrecta_Incorrecta(letra, v.generarPalabra(r,v.Palabras));
+				v.letraCorrecta_Incorrecta(letra,v.palabra_generada);
 			}
 		} catch (Exception e) {
 			System.out.println("Error: "+e);

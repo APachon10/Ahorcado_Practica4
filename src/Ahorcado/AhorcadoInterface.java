@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Random;
 
 public interface AhorcadoInterface extends Remote {
-	public String generarPalabra(Random r, String array []) throws RemoteException;
-	public boolean letraCorrecta_Incorrecta(String letra,String palabra_generada) throws RemoteException;
+	public String generarPalabra(String array []) throws RemoteException;
+	public String  letraCorrecta_Incorrecta(String letra,String palabra_generada) throws RemoteException;
 	
 }
