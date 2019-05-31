@@ -11,11 +11,11 @@ import java.util.Random;
 public class Servidor implements AhorcadoInterface {
 	static String [] Palabras = {"Alberto","Anime","Manga"};
 	static String palabra_generada="";
-	static int intentos = 2;
+	static int intentos = 5;
 	public static void main(String[] args) throws UnknownHostException, RemoteException {
 		Registry registro = null;
 		Servidor v = new Servidor();
-		System.out.println(palabra_generada);
+
 		System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostAddress());
 		System.out.println("Servidor Listo");
 		try {
@@ -27,14 +27,11 @@ public class Servidor implements AhorcadoInterface {
 			e.printStackTrace();
 		}
 	}
-	//Constructor
 	public  Servidor() throws RemoteException {
-		if(this.palabra_generada.equals("")) {
-			this.palabra_generada = generarPalabra(Palabras);
-		}
+		palabra_generada = generarPalabra(Palabras);
 	}
 	@Override
-	public  String generarPalabra(String [] palabras) throws RemoteException {
+	public String generarPalabra(String [] palabras) throws RemoteException {
 		Random r = new Random();
 		int numero_aleatorio = r.nextInt(3);
 		return palabras[numero_aleatorio];
@@ -43,17 +40,43 @@ public class Servidor implements AhorcadoInterface {
 	public String compararLetra(String letra) throws RemoteException {
 		String caracteres []= palabra_generada.split("");
 		String res = "";
-		System.out.println("Hola: " +palabra_generada);
-		for (int i = 0; i < caracteres.length; i++) {
-			if(letra == caracteres[i]) {
-				res = res+ caracteres[i];
-				System.out.print(caracteres[i] +"");
+		if(letraAcertada(letra)==true) {
+			for (int j = 0; j < caracteres.length; j++) {
+				if(letra.equalsIgnoreCase(caracteres[j])) {
+					res=caracteres[j];
+					System.out.print(res+"");
+				}else {
+					res="_";
+					System.out.print(res);
+				}
+			}
+		}else {
+			intentos = intentos -1;
+		}
+		System.out.println("\n========================");
+		return res;
+	}
+	@Override
+	public boolean letraAcertada(String letra) {
+		String caracteres []= palabra_generada.split("");
+		boolean salir=false;
+		int i=0;
+		while(!salir) {
+			if(intentos <=0) {
+				if(i<caracteres.length) {
+					if(letra.equalsIgnoreCase(caracteres[i])) {
+						salir=true;
+					}else {
+						salir=false;
+						i=i+1;
+					}
+				}else {
+					salir=true;
+				}
 			}else {
-				res=res+"_";
-				System.out.print("_"+"");
-				intentos = intentos -1;
+				salir=true;
 			}
 		}
-		return res;
+		return salir;
 	}
 }
